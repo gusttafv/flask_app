@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-flask
+  labels:
+    app: {{ .Release.Name }}-flask
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-flask
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-flask
+    spec:
+      containers:
+        - name: flask
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env:
+            - name: RABBITMQ_HOST
+              value: {{ .Values.env.RABBITMQ_HOST | quote }}
+            - name: RABBITMQ_PORT
+              value: {{ .Values.env.RABBITMQ_PORT | quote }}
+            - name: RABBITMQ_USER
+              value: {{ .Values.env.RABBITMQ_USER | quote }}
+            - name: RABBITMQ_PASSWORD
+              value: {{ .Values.env.RABBITMQ_PASSWORD | quote }}

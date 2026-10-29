@@ -1,0 +1,18 @@
+replicaCount: 1
+
+image:
+  repository: gustafiko/flask-rabbit-app
+  tag: "v2.0"
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 5000
+  targetPort: 5000
+  nodePort: 30095
+
+env:
+  RABBITMQ_HOST: "my-rabbitmq.rabbitmq.svc.cluster.local"
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_USER: "admin"
+  RABBITMQ_PASSWORD: "ekBOCpt7tPbpQpCmqrJ3NBYVUciSMyPq"
